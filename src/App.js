@@ -58,13 +58,31 @@ function App() {
   // Assign Colors to Each Use Case
   const assignColors = (useCases) => {
     const assignedColors = {};
-    
+    const colorPalette = [
+      '#FF0000', // Red
+      '#00FF00', // Green
+      '#0000FF', // Blue
+      '#FFFF00', // Yellow
+      '#FF00FF', // Magenta
+      '#00FFFF', // Cyan
+      '#FFA500', // Orange
+      '#FF7F50', // Coral
+      '#8A2BE2', // Violet
+      '#32CD32', // Lime
+      '#87CEEB', // Sky Blue
+      '#FFD700', // Gold
+      '#ADD8E6', // Light Blue
+      '#FFB6C1', // Light Red
+      '#90EE90', // Light Green
+      // Add more colors as needed
+    ];
+
     useCases.forEach(({ actors }) => {
-      console.log("this is the actors:",actors)
       const actorKey = actors.sort().join('-'); // Create a unique key based on sorted actors
-      console.log("actor Key:",actorKey)
       if (!assignedColors[actorKey]) {
-        assignedColors[actorKey] = `hsl(${Math.random() * 360}, 100%, 50%)`; // Random color for unique actor set
+        // Find the next available color
+        const availableColors = colorPalette.filter(color => !Object.values(assignedColors).includes(color));
+        assignedColors[actorKey] = availableColors.length > 0 ? availableColors[0] : '#000000'; // Fallback to black if no colors are available
       }
     });
 
