@@ -140,7 +140,7 @@ function App() {
                   backgroundColor: color,
                   width: '20px',
                   height: '20px',
-                  display: 'inline-block',
+                  // display: 'inline-block',
                   marginRight: '10px',
                 }}
               ></div>
