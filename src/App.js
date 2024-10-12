@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import Papa from 'papaparse';
 import './App.css';
+import actorIcon from './actor-icon.png'; // Adjust the path as necessary
+
 
 function App() {
   const [data, setData] = useState([]);
@@ -62,9 +64,9 @@ function App() {
       '#FF0000', // Red
       '#00FF00', // Green
       '#0000FF', // Blue
-      '#FFFF00', // Yellow
+      '#ecec06', // Yellow
       '#FF00FF', // Magenta
-      '#00FFFF', // Cyan
+      '#03e5e5', // Cyan
       '#FFA500', // Orange
       '#FF7F50', // Coral
       '#8A2BE2', // Violet
@@ -106,11 +108,19 @@ function App() {
     }
   }, [useCases]);
 
+  // Assuming `useCases` is an array of objects with a `useCase` property
+  const sortedUseCases = useCases.sort((a, b) => {
+    const colorA = colors[a.actors.sort().join('-')];
+    const colorB = colors[b.actors.sort().join('-')];
+    console.log('Comparing:', colorA, colorB); // Log the colors being compared
+    return (colorA || '#FFFFFF').localeCompare(colorB || '#FFFFFF');
+  });
+
   return (
     <div className="App">
       <h1>Use Case Diagram</h1>
       <div className="diagram">
-        {useCases.map(({ useCase, actors }, index) => {
+        {sortedUseCases.map(({ useCase, actors }, index) => {
           const actorKey = actors.sort().join('-'); // Create a unique key for color assignment
           return (
             <div key={index} className="use-case" style={{ backgroundColor: colors[actorKey] }}>
@@ -145,6 +155,17 @@ function App() {
                 }}
               ></div>
               <span>{actorSet.split('-').join(', ')}</span>
+            </div>
+          ))}
+        </div>
+      </div>
+      <div>
+        <h2>All Unique Actors</h2>
+        <div className="actor-uniques">
+          {[...new Set(useCases.flatMap(uc => uc.actors))].map((actor, index) => (
+            <div key={index} className="actor-unique">
+              <img src={actorIcon} alt="Actor icon" className="actor-icon" />
+              <span>{actor}</span>
             </div>
           ))}
         </div>
